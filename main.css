@@ -1,0 +1,106 @@
+/**** initial and variables ****/
+:root {
+  --border-radius: 10px;
+	--board-border: 1px solid black;
+	--light-grey: rgb(243, 243, 243);
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/**** sizing and placement ****/
+
+body {
+  margin: 0;
+}
+
+.container {
+  max-width: 400px;
+  margin: 30px auto;
+  display: grid;
+  justify-items: center;
+  grid-gap: 20px;
+  padding: 2em 0.5em 3.5em;
+}
+
+.scores {
+  display: grid;
+  grid-template-columns: repeat(2, 100px);
+  grid-template-rows: max-content;
+  grid-gap: 10px;
+  margin: 10px;
+}
+
+.player {
+  display: grid;
+  place-items: center;
+  padding-bottom: 0.8em;
+}
+
+.score {
+  font-size: 1.5em;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 75px);
+  grid-template-rows: repeat(3, 75px);
+  place-items: center;
+}
+
+.square {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+/**** styling ****/
+body {
+  background: var(--light-grey);
+  text-align: center;
+}
+
+.container {
+  background: white;
+  border-radius: var(--border-radius);
+}
+
+.player {
+  border: 1px solid black;
+  border-radius: var(--border-radius);
+}
+
+.score {
+  text-transform: uppercase;
+}
+
+.square:hover, .square:active {
+	cursor: pointer;
+	background-color: var(--light-grey);
+}
+
+#square1,
+#square2,
+#square3,
+#square4,
+#square5,
+#square6 {
+  border-bottom: var(--board-border);
+}
+
+#square1,
+#square4,
+#square7,
+#square2,
+#square5,
+#square8 {
+  border-right: var(--board-border);
+}

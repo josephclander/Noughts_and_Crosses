@@ -33,23 +33,9 @@ let gameOver = false;
 allSquares.forEach((square) =>
   // anon function that adds x or o alternately
   square.addEventListener("click", (event) => {
-    // select square innerText = x or o
-    let label;
-    xTurn ? (label = "X") : (label = "O");
-    // if square empty & game hasn't already been won
-    if (square.innerText == "" && !gameOver) {
-      // add the label
-      square.innerText = label;
-      // add label to correct spot of currentBoard record
-      let position = parseInt(event.target.id);
-      currentBoard[position] = label;
-      // move counter of turns
-      xTurn = !xTurn;
-      // alternate message to next turn
-      let newMessage;
-      xTurn ? (newMessage = "It's X's Turn!") : (newMessage = "It's O's Turn!");
-      msg.innerText = newMessage;
-    }
+    labelSquare(event.target);
+    messageTurnHandler();
+    
     // stop counting turns as will always check for winners now so not necessary
     if (numberOfTurns < 5) {
       numberOfTurns++;
@@ -60,6 +46,29 @@ allSquares.forEach((square) =>
     }
   })
 );
+
+function labelSquare(square) {
+  // select square innerText = x or o
+  let label;
+  xTurn ? (label = "X") : (label = "O");
+  // if square empty & game hasn't already been won
+  if (square.innerText == "" && !gameOver) {
+    // add the label
+    square.innerText = label;
+    // add label to correct spot of currentBoard record
+    let position = parseInt(event.target.id);
+    currentBoard[position] = label;
+    // move counter of turns
+    xTurn = !xTurn;
+  }
+}
+
+function messageTurnHandler() {
+  // alternate message to next turn
+  let newMessage;
+  xTurn ? (newMessage = "It's X's Turn!") : (newMessage = "It's O's Turn!");
+  msg.innerText = newMessage;
+}
 
 function checkIfWon() {
   // counter added to dev to check efficiency
@@ -87,7 +96,7 @@ function checkIfWon() {
         default:
           break;
       }
-      // if won
+      // if someone has won
       if (xCount == 3 || oCount == 3) {
         // get message tag and innerText = "x/o won"
         let newMessage;
@@ -119,10 +128,10 @@ function checkIfWon() {
 
 function styleWinner(combo) {
   // console.log(combo); e.g. returns 7 which is [2,4,6]
-  WINNING_COMBOS[combo].forEach(index => {
+  WINNING_COMBOS[combo].forEach((index) => {
     // changes the squares background
-    allSquares[index].classList.add('winner');
-  })
+    allSquares[index].classList.add("winner");
+  });
 }
 
 // FUTURE FEATURES
@@ -138,3 +147,4 @@ function styleWinner(combo) {
 // the brute force count stops if a cell is empty DONE
 // only need to start checking after 5 turns DONE
 // game stops after the winner has been announced DONE
+// if no blanks on a winning combo but not a win, can it be ignored from future win checks?

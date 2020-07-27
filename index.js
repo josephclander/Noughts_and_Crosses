@@ -27,6 +27,7 @@ let currentBoard = new Array(9);
 // counter for turns and player
 let xTurn = true;
 let numberOfTurns = 0;
+let gameOver = false;
 
 // add an eventlistener for a click to all square elements
 allSquares.forEach((square) =>
@@ -35,16 +36,17 @@ allSquares.forEach((square) =>
     // select square innerText = x or o
     let label;
     xTurn ? (label = "X") : (label = "O");
-    // if square empty
-    if (square.innerText == "") {
+    // if square empty & game hasn't already been won
+    if (square.innerText == "" && !gameOver) {
       // add the label
       square.innerText = label;
-      // add label to correct spot of currentBoard
+      // add label to correct spot of currentBoard record
       let position = parseInt(event.target.id);
       currentBoard[position] = label;
     }
     // move counter of turns
     xTurn = !xTurn;
+    // stop counting turns as will always check for winners now so not necessary
     if(numberOfTurns < 5) {
       numberOfTurns ++;
     }
@@ -61,6 +63,7 @@ allSquares.forEach((square) =>
 );
 
 function checkIfWon() {
+  // counter added to dev to check efficiency
   let totalChecks = 0;
   let combo = 0
   let winnerFound = false;
@@ -68,6 +71,7 @@ function checkIfWon() {
     let comboElement = 0;
     let xCount = 0;
     let oCount = 0;
+    // is the square being checked still blank?
     let blank = false;
     do {
       let value = currentBoard[WINNING_COMBOS[combo][comboElement]];
@@ -88,14 +92,19 @@ function checkIfWon() {
       if (xCount == 3 || oCount == 3) {
         // get message tag and innerText = "x/o won"
         msg.innerText = "Winner";
+        // local winner variable
         winnerFound = true;
+        // global winner variable
+        gameOver = true;
       }
       totalChecks++;
       comboElement++;
     }
+    // 3 elements or fewer and none are blank (undefined)
     while (comboElement < 3 && !blank);
     combo++
   }
+  // check the list while the winner has NOT been found
   while (combo < WINNING_COMBOS.length && !winnerFound);
   console.log("Number of Checks: " + totalChecks);
 }
@@ -112,4 +121,4 @@ function checkIfWon() {
 // can you make the currentboard added to after each turn? DONE
 // the brute force count stops if a cell is empty DONE
 // only need to start checking after 5 turns DONE
-// game stops after the winner has been announced
+// game stops after the winner has been announced DONE

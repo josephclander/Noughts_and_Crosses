@@ -99,6 +99,7 @@ function checkIfWon() {
         winnerFound = true;
         // global winner variable
         gameOver = true;
+        styleWinner(combo);
       }
       totalChecks++;
       comboElement++;
@@ -116,13 +117,21 @@ function checkIfWon() {
   console.log("Number of Checks: " + totalChecks);
 }
 
+function styleWinner(combo) {
+  // console.log(combo); e.g. returns 7 which is [2,4,6]
+  WINNING_COMBOS[combo].forEach(index => {
+    // changes the squares background
+    allSquares[index].classList.add('winner');
+  })
+}
+
 // FUTURE FEATURES
 // restart game
 // add points to players scores
 // highlight winning line
 // change who starts
 // enter names
-// message states who wins
+// message states who wins DONE
 
 // POTENTIAL REFACTORS
 // can you make the currentboard added to after each turn? DONE

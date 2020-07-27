@@ -60,6 +60,7 @@ body {
   height: 100%;
   display: grid;
   place-items: center;
+  transition: 300ms;
 }
 
 /**** styling ****/
@@ -103,4 +104,8 @@ body {
 .square4,
 .square7 {
   border-right: var(--board-border);
+}
+
+.winner {
+  background-color: rgb(192, 87, 87) !important;
 }

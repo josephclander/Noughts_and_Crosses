@@ -60,19 +60,20 @@ allSquares.forEach((square) =>
   })
 );
 
-// check to see if that player has won
 function checkIfWon() {
-  // brute force - check each line against a solution list [8 lines at top of page]
-  // access array of winning combos
-  for (let combo = 0; combo < WINNING_COMBOS.length; combo++) {
-    // initialize counts
+  let totalChecks = 0;
+  let combo = 0
+  do {
+    let comboElement = 0;
     let xCount = 0;
     let oCount = 0;
-    // run through the 3 winning squares
-    for (let comboElement = 0; comboElement < 3; comboElement++) {
-      // find the value on the board in the same postion as this instance of a winning combo
+    let blank = false;
+    do {
       let value = currentBoard[WINNING_COMBOS[combo][comboElement]];
       switch (value) {
+        case undefined:
+          blank = true;
+          break;
         case "X":
           xCount++;
           break;
@@ -87,8 +88,14 @@ function checkIfWon() {
         // get message tag and innerText = "x/o won"
         msg.innerText = "Winner";
       }
+      totalChecks++;
+      comboElement++;
     }
+    while (comboElement < 3 && !blank);
+    combo++
   }
+  while (combo < WINNING_COMBOS.length);
+  console.log("Number of Checks: " + totalChecks);
 }
 
 // FUTURE FEATURES
@@ -101,6 +108,6 @@ function checkIfWon() {
 
 // POTENTIAL REFACTORS
 // can you make the currentboard added to after each turn? DONE
-// the brute force count stops if a cell is empty
+// the brute force count stops if a cell is empty DONE
 // only need to start checking after 5 turns DONE
 // game stops after the winner has been announced

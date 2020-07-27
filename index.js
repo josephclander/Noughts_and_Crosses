@@ -1,12 +1,12 @@
 const WINNING_COMBOS = [
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9],
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
   [1, 4, 7],
   [2, 5, 8],
-  [3, 6, 9],
-  [1, 5, 9],
-  [3, 5, 7],
+  [0, 4, 8],
+  [2, 4, 6],
 ];
 
 // Variables
@@ -21,18 +21,25 @@ const scoreBoardO = document.querySelector("#scoreO");
 // Squares on the Board
 const allSquares = document.querySelectorAll(".square");
 
+// Current Board [initialized as an array with index of 9]
+let currentBoard = new Array(9);
+
 // counter for whose turn
 let xTurn = true;
 // add an eventlistener for a click to all square elements
 allSquares.forEach((square) =>
   // anon function that adds x or o alternately
-  square.addEventListener("click", () => {
+  square.addEventListener("click", (event) => {
     // select square innerText = x or o
     let label;
     xTurn ? (label = "X") : (label = "O");
     // if square empty
     if (square.innerText == "") {
+      // add the label
       square.innerText = label;
+      // add label to correct spot of currentBoard
+      let position = parseInt(event.target.id);
+      currentBoard[position] = label;
     }
     // move counter of turn
     xTurn = !xTurn;
@@ -47,17 +54,13 @@ allSquares.forEach((square) =>
 
 // check to see if that player has won
 function checkIfWon() {
-  let currentBoard = [];
-  // create an instance of the board to check against
-  allSquares.forEach((square) => currentBoard.push(square.innerText));
-  
   // brute force - check each line against a solution list [8 lines at top of page]
   for (let i = 0; i < WINNING_COMBOS.length; i++) {
     let xCount = 0;
     let oCount = 0;
     for (let j = 0; j < 3; j++) {
       // find the value on the board in the same postion as this instance of a winning combo
-      let value = currentBoard[WINNING_COMBOS[i][j] - 1];
+      let value = currentBoard[WINNING_COMBOS[i][j]];
       switch (value) {
         case "X":
           xCount++;
@@ -88,4 +91,5 @@ function checkIfWon() {
 // POTENTIAL REFACTORS
 // can you make the currentboard added to after each turn?
 // the brute force count stops if a cell is empty
+// only need to start checking after 5 turns
 // game stops after the winner has been announced

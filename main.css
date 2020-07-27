@@ -87,20 +87,20 @@ body {
 	background-color: var(--light-grey);
 }
 
-#square1,
-#square2,
-#square3,
-#square4,
-#square5,
-#square6 {
+.square0,
+.square1,
+.square2,
+.square3,
+.square4,
+.square5 {
   border-bottom: var(--board-border);
 }
 
-#square1,
-#square4,
-#square7,
-#square2,
-#square5,
-#square8 {
+.square0,
+.square3,
+.square6,
+.square1,
+.square4,
+.square7 {
   border-right: var(--board-border);
 }

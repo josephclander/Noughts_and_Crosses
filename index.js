@@ -19,16 +19,6 @@ const scoreBoardX = document.querySelector("#scoreX");
 const scoreBoardO = document.querySelector("#scoreO");
 
 // Squares on the Board
-const square1 = document.querySelector("#square1");
-const square2 = document.querySelector("#square2");
-const square3 = document.querySelector("#square3");
-const square4 = document.querySelector("#square4");
-const square5 = document.querySelector("#square5");
-const square6 = document.querySelector("#square6");
-const square7 = document.querySelector("#square7");
-const square8 = document.querySelector("#square8");
-const square9 = document.querySelector("#square9");
-
 const allSquares = document.querySelectorAll(".square");
 
 // counter for whose turn
@@ -58,12 +48,15 @@ allSquares.forEach((square) =>
 // check to see if that player has won
 function checkIfWon() {
   let currentBoard = [];
+  // create an instance of the board to check against
   allSquares.forEach((square) => currentBoard.push(square.innerText));
-
+  
+  // brute force - check each line against a solution list [8 lines at top of page]
   for (let i = 0; i < WINNING_COMBOS.length; i++) {
     let xCount = 0;
     let oCount = 0;
     for (let j = 0; j < 3; j++) {
+      // find the value on the board in the same postion as this instance of a winning combo
       let value = currentBoard[WINNING_COMBOS[i][j] - 1];
       switch (value) {
         case "X":
@@ -75,24 +68,24 @@ function checkIfWon() {
         default:
           break;
       }
+      // if won
       if (xCount == 3 || oCount == 3) {
+        // get message tag and innerText = "x/o won"
         msg.innerText = "Winner";
       }
     }
   }
 }
-// brute force - check each line against a solution list [think there are 8 lines]
-// if won
-// get message tag and innerText = "x/o won"
 
-// console.log(WINNING_COMBOS[0][0]);
-
-// Future Features
-// Restart game
+// FUTURE FEATURES
+// restart game
 // add points to players scores
 // highlight winning line
 // change who starts
 // enter names
+// message states who wins
 
-// refactors
+// POTENTIAL REFACTORS
 // can you make the currentboard added to after each turn?
+// the brute force count stops if a cell is empty
+// game stops after the winner has been announced

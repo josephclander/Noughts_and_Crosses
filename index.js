@@ -43,20 +43,19 @@ allSquares.forEach((square) =>
       // add label to correct spot of currentBoard record
       let position = parseInt(event.target.id);
       currentBoard[position] = label;
+      // move counter of turns
+      xTurn = !xTurn;
+      // alternate message to next turn
+      let newMessage;
+      xTurn ? (newMessage = "It's X's Turn!") : (newMessage = "It's O's Turn!");
+      msg.innerText = newMessage;
     }
-    // move counter of turns
-    xTurn = !xTurn;
     // stop counting turns as will always check for winners now so not necessary
-    if(numberOfTurns < 5) {
-      numberOfTurns ++;
+    if (numberOfTurns < 5) {
+      numberOfTurns++;
     }
-    // alternate message to next turn
-    let newMessage;
-    xTurn ? (newMessage = "It's X's Turn!") : (newMessage = "It's O's Turn!");
-    msg.innerText = newMessage;
-
     // restrict check until 5 turns
-    if (numberOfTurns > 4) {
+    if (numberOfTurns > 4 && !gameOver) {
       checkIfWon();
     }
   })
@@ -65,7 +64,7 @@ allSquares.forEach((square) =>
 function checkIfWon() {
   // counter added to dev to check efficiency
   let totalChecks = 0;
-  let combo = 0
+  let combo = 0;
   let winnerFound = false;
   do {
     let comboElement = 0;
@@ -91,7 +90,11 @@ function checkIfWon() {
       // if won
       if (xCount == 3 || oCount == 3) {
         // get message tag and innerText = "x/o won"
-        msg.innerText = "Winner";
+        let newMessage;
+        xTurn
+          ? (newMessage = "O is the winner")
+          : (newMessage = "X is the winner");
+        msg.innerText = newMessage;
         // local winner variable
         winnerFound = true;
         // global winner variable
@@ -99,13 +102,17 @@ function checkIfWon() {
       }
       totalChecks++;
       comboElement++;
-    }
-    // 3 elements or fewer and none are blank (undefined)
-    while (comboElement < 3 && !blank);
-    combo++
-  }
-  // check the list while the winner has NOT been found
-  while (combo < WINNING_COMBOS.length && !winnerFound);
+    } while (
+      // 3 elements or fewer and none are blank (undefined)
+      comboElement < 3 &&
+      !blank
+    );
+    combo++;
+  } while (
+    // check the list while the winner has NOT been found
+    combo < WINNING_COMBOS.length &&
+    !winnerFound
+  );
   console.log("Number of Checks: " + totalChecks);
 }
 

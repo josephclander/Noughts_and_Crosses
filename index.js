@@ -64,14 +64,14 @@ allSquares.forEach((square) =>
 function checkIfWon() {
   // brute force - check each line against a solution list [8 lines at top of page]
   // access array of winning combos
-  for (let i = 0; i < WINNING_COMBOS.length; i++) {
+  for (let combo = 0; combo < WINNING_COMBOS.length; combo++) {
     // initialize counts
     let xCount = 0;
     let oCount = 0;
     // run through the 3 winning squares
-    for (let j = 0; j < 3; j++) {
+    for (let comboElement = 0; comboElement < 3; comboElement++) {
       // find the value on the board in the same postion as this instance of a winning combo
-      let value = currentBoard[WINNING_COMBOS[i][j]];
+      let value = currentBoard[WINNING_COMBOS[combo][comboElement]];
       switch (value) {
         case "X":
           xCount++;

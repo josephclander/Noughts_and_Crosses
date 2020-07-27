@@ -45,7 +45,9 @@ allSquares.forEach((square) =>
     }
     // move counter of turns
     xTurn = !xTurn;
-    numberOfTurns ++;
+    if(numberOfTurns < 5) {
+      numberOfTurns ++;
+    }
     // alternate message to next turn
     let newMessage;
     xTurn ? (newMessage = "It's X's Turn!") : (newMessage = "It's O's Turn!");

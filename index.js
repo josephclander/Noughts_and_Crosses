@@ -24,8 +24,10 @@ const allSquares = document.querySelectorAll(".square");
 // Current Board [initialized as an array with index of 9]
 let currentBoard = new Array(9);
 
-// counter for whose turn
+// counter for turns and player
 let xTurn = true;
+let numberOfTurns = 0;
+
 // add an eventlistener for a click to all square elements
 allSquares.forEach((square) =>
   // anon function that adds x or o alternately
@@ -41,14 +43,18 @@ allSquares.forEach((square) =>
       let position = parseInt(event.target.id);
       currentBoard[position] = label;
     }
-    // move counter of turn
+    // move counter of turns
     xTurn = !xTurn;
+    numberOfTurns ++;
     // alternate message to next turn
     let newMessage;
     xTurn ? (newMessage = "It's X's Turn!") : (newMessage = "It's O's Turn!");
     msg.innerText = newMessage;
 
-    checkIfWon();
+    // restrict check until 5 turns
+    if (numberOfTurns > 4) {
+      checkIfWon();
+    }
   })
 );
 
@@ -89,7 +95,7 @@ function checkIfWon() {
 // message states who wins
 
 // POTENTIAL REFACTORS
-// can you make the currentboard added to after each turn?
+// can you make the currentboard added to after each turn? DONE
 // the brute force count stops if a cell is empty
-// only need to start checking after 5 turns
+// only need to start checking after 5 turns DONE
 // game stops after the winner has been announced

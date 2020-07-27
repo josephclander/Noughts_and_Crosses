@@ -63,6 +63,7 @@ allSquares.forEach((square) =>
 function checkIfWon() {
   let totalChecks = 0;
   let combo = 0
+  let winnerFound = false;
   do {
     let comboElement = 0;
     let xCount = 0;
@@ -87,6 +88,7 @@ function checkIfWon() {
       if (xCount == 3 || oCount == 3) {
         // get message tag and innerText = "x/o won"
         msg.innerText = "Winner";
+        winnerFound = true;
       }
       totalChecks++;
       comboElement++;
@@ -94,7 +96,7 @@ function checkIfWon() {
     while (comboElement < 3 && !blank);
     combo++
   }
-  while (combo < WINNING_COMBOS.length);
+  while (combo < WINNING_COMBOS.length && !winnerFound);
   console.log("Number of Checks: " + totalChecks);
 }
 

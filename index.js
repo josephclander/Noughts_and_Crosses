@@ -33,8 +33,10 @@ let gameOver = false;
 allSquares.forEach((square) =>
   // anon function that adds x or o alternately
   square.addEventListener("click", (event) => {
-    labelSquare(event.target);
-    messageTurnHandler();
+    if (!gameOver) {
+      labelSquare(event.target);
+      messageTurnHandler();
+    }
     
     // stop counting turns as will always check for winners now so not necessary
     if (numberOfTurns < 5) {
@@ -42,6 +44,7 @@ allSquares.forEach((square) =>
     }
     // restrict check until 5 turns
     if (numberOfTurns > 4 && !gameOver) {
+      // check for winning lines
       checkIfWon();
     }
   })
@@ -52,7 +55,7 @@ function labelSquare(square) {
   let label;
   xTurn ? (label = "X") : (label = "O");
   // if square empty & game hasn't already been won
-  if (square.innerText == "" && !gameOver) {
+  if (square.innerText == "") {
     // add the label
     square.innerText = label;
     // add label to correct spot of currentBoard record
@@ -65,11 +68,9 @@ function labelSquare(square) {
 
 function messageTurnHandler() {
   // alternate message to next turn
-  if (!gameOver) {
     let newMessage;
     xTurn ? (newMessage = "It's X's Turn!") : (newMessage = "It's O's Turn!");
     msg.innerText = newMessage;
-  }
 }
 
 function checkIfWon() {

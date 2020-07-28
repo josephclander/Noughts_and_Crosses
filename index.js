@@ -15,8 +15,8 @@ const WINNING_COMBOS = [
 const msg = document.querySelector("#message");
 
 // Scoreboard References
-const scoreBoardX = document.querySelector("#scoreX");
-const scoreBoardO = document.querySelector("#scoreO");
+// const scoreBoardX = document.querySelector("#scoreX");
+// const scoreBoardO = document.querySelector("#scoreO");
 
 // Squares on the Board
 const allSquares = document.querySelectorAll(".square");

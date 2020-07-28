@@ -65,9 +65,11 @@ function labelSquare(square) {
 
 function messageTurnHandler() {
   // alternate message to next turn
-  let newMessage;
-  xTurn ? (newMessage = "It's X's Turn!") : (newMessage = "It's O's Turn!");
-  msg.innerText = newMessage;
+  if (!gameOver) {
+    let newMessage;
+    xTurn ? (newMessage = "It's X's Turn!") : (newMessage = "It's O's Turn!");
+    msg.innerText = newMessage;
+  }
 }
 
 function checkIfWon() {

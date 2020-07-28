@@ -58,6 +58,7 @@ allSquares.forEach((square) =>
           messageWinnerHandler(winner);
           styleWinningLine(combo);
           pointsHandler(winner);
+          gameReset(winner);
         }
       }
     }
@@ -153,6 +154,23 @@ function pointsHandler(winner) {
   if (winner == "O") scoreO++;
   scoreBoardX.innerText = scoreX;
   scoreBoardO.innerText = scoreO;
+}
+
+function gameReset(winner) {
+  // Reset counters
+setTimeout(() => {
+  // loser starts
+  winner == "X" ? xTurn = false : xTurn = true;
+  numberOfTurns = 0;
+  gameOver = false;
+  currentBoard = new Array(9);
+  messageTurnHandler();
+  allSquares.forEach(square => {
+    square.classList.remove("winner");
+    square.innerText = "";
+  })
+
+}, 2500);
 }
 
 // FUTURE FEATURES

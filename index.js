@@ -172,19 +172,3 @@ setTimeout(() => {
 
 }, 2500);
 }
-
-// FUTURE FEATURES
-// restart game
-// add points to players scores
-// highlight winning line
-// change who starts
-// enter names
-// message states who wins DONE
-
-// POTENTIAL REFACTORS
-// can you make the currentboard added to after each turn? DONE
-// the brute force count stops if a cell is empty DONE
-// only need to start checking after 5 turns DONE
-// game stops after the winner has been announced DONE
-// if no blanks on a winning combo but not a win, can it be ignored from future win checks?
-// Edge case of more than one winning line

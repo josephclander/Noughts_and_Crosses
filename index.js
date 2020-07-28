@@ -24,7 +24,7 @@ const allSquares = document.querySelectorAll(".square");
 // Current Board [initialized as an array with index of 9]
 let currentBoard = new Array(9);
 
-// counter for turns and player
+// Counters
 let xTurn = true;
 let numberOfTurns = 0;
 let gameOver = false;
@@ -35,17 +35,23 @@ allSquares.forEach((square) =>
   square.addEventListener("click", (event) => {
     if (!gameOver) {
       labelSquare(event.target);
+      // move counter of turns
+      xTurn = !xTurn;
       messageTurnHandler();
-    }
-    
-    // stop counting turns as will always check for winners now so not necessary
-    if (numberOfTurns < 5) {
-      numberOfTurns++;
-    }
-    // restrict check until 5 turns
-    if (numberOfTurns > 4 && !gameOver) {
-      // check for winning lines
-      checkIfWon();
+      // stop counting turns as will always check for winners now so not necessary
+      if (numberOfTurns < 5) {
+        numberOfTurns++;
+      }
+      // restrict check until 5 turns
+      if (numberOfTurns > 4) {
+        // check for winning lines
+        let { winnerFound, winner, combo } = checkIfWon();
+        if (winnerFound) {
+          gameOver = true;
+          messageWinnerHandler(winner);
+          styleWinningLine(combo);
+        }
+      }
     }
   })
 );
@@ -61,23 +67,22 @@ function labelSquare(square) {
     // add label to correct spot of currentBoard record
     let position = parseInt(event.target.id);
     currentBoard[position] = label;
-    // move counter of turns
-    xTurn = !xTurn;
   }
 }
 
 function messageTurnHandler() {
   // alternate message to next turn
-    let newMessage;
-    xTurn ? (newMessage = "It's X's Turn!") : (newMessage = "It's O's Turn!");
-    msg.innerText = newMessage;
+  let newMessage;
+  xTurn ? (newMessage = "It's X's Turn!") : (newMessage = "It's O's Turn!");
+  msg.innerText = newMessage;
 }
 
 function checkIfWon() {
-  // counter added to dev to check efficiency
+  // counter added for dev to check efficiency
   let totalChecks = 0;
   let combo = 0;
   let winnerFound = false;
+  let winner;
   do {
     let comboElement = 0;
     let xCount = 0;
@@ -101,18 +106,10 @@ function checkIfWon() {
       }
       // if someone has won
       if (xCount == 3 || oCount == 3) {
-        // get message tag and innerText = "x/o won"
-        let newMessage;
-        xTurn
-          ? (newMessage = "O is the winner")
-          : (newMessage = "X is the winner");
-        msg.innerText = newMessage;
-        // local winner variable
         winnerFound = true;
-        // global winner variable
-        gameOver = true;
-        styleWinner(combo);
       }
+      if (xCount == 3) winner = "X";
+      if (oCount == 3) winner = "O";
       totalChecks++;
       comboElement++;
     } while (
@@ -127,14 +124,20 @@ function checkIfWon() {
     !winnerFound
   );
   console.log("Number of Checks: " + totalChecks);
+  return { winnerFound: winnerFound, winner: winner, combo: combo - 1 };
 }
 
-function styleWinner(combo) {
+function styleWinningLine(combo) {
   // console.log(combo); e.g. returns 7 which is [2,4,6]
   WINNING_COMBOS[combo].forEach((index) => {
     // changes the squares background
     allSquares[index].classList.add("winner");
   });
+}
+
+function messageWinnerHandler(winner) {
+  let newMessage = winner + " is the winner";
+  msg.innerText = newMessage;
 }
 
 // FUTURE FEATURES
@@ -151,3 +154,4 @@ function styleWinner(combo) {
 // only need to start checking after 5 turns DONE
 // game stops after the winner has been announced DONE
 // if no blanks on a winning combo but not a win, can it be ignored from future win checks?
+// Edge case of more than one winning line

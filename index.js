@@ -15,8 +15,8 @@ const WINNING_COMBOS = [
 const msg = document.querySelector("#message");
 
 // Scoreboard References
-// const scoreBoardX = document.querySelector("#scoreX");
-// const scoreBoardO = document.querySelector("#scoreO");
+const scoreBoardX = document.querySelector("#scoreX");
+const scoreBoardO = document.querySelector("#scoreO");
 
 // Squares on the Board
 const allSquares = document.querySelectorAll(".square");
@@ -28,6 +28,13 @@ let currentBoard = new Array(9);
 let xTurn = true;
 let numberOfTurns = 0;
 let gameOver = false;
+// Scores
+let scoreX = 0;
+let scoreO = 0;
+
+// Linking Scores
+scoreBoardX.innerText = scoreX;
+scoreBoardO.innerText = scoreO;
 
 // add an eventlistener for a click to all square elements
 allSquares.forEach((square) =>
@@ -50,6 +57,7 @@ allSquares.forEach((square) =>
           gameOver = true;
           messageWinnerHandler(winner);
           styleWinningLine(combo);
+          pointsHandler(winner);
         }
       }
     }
@@ -138,6 +146,13 @@ function styleWinningLine(combo) {
 function messageWinnerHandler(winner) {
   let newMessage = winner + " is the winner";
   msg.innerText = newMessage;
+}
+
+function pointsHandler(winner) {
+  if (winner == "X") scoreX++;
+  if (winner == "O") scoreO++;
+  scoreBoardX.innerText = scoreX;
+  scoreBoardO.innerText = scoreO;
 }
 
 // FUTURE FEATURES

@@ -12,14 +12,14 @@ const WINNING_COMBOS = [
 // Variables
 
 // Message Board
-const msg = document.querySelector("#message");
+const msg = document.querySelector('#message');
 
 // Scoreboard References
-const scoreBoardX = document.querySelector("#scoreX");
-const scoreBoardO = document.querySelector("#scoreO");
+const scoreBoardX = document.querySelector('#scoreX');
+const scoreBoardO = document.querySelector('#scoreO');
 
 // Squares on the Board
-const allSquares = document.querySelectorAll(".square");
+const allSquares = document.querySelectorAll('.square');
 
 // Current Board [initialized as an array with index of 9]
 let currentBoard = new Array(9);
@@ -39,27 +39,28 @@ scoreBoardO.innerText = scoreO;
 // add an eventlistener for a click to all square elements
 allSquares.forEach((square) =>
   // anon function that adds x or o alternately
-  square.addEventListener("click", (event) => {
+  square.addEventListener('click', (event) => {
     if (!gameOver) {
       labelSquare(event.target);
       // move counter of turns
       xTurn = !xTurn;
       messageTurnHandler();
-      // stop counting turns as will always check for winners now so not necessary
-      if (numberOfTurns < 5) {
-        numberOfTurns++;
+      numberOfTurns++;
+
+      // check for winning lines
+      let { winnerFound, winner, combo } = checkIfWon();
+      if (winnerFound) {
+        gameOver = true;
+        messageWinnerHandler(winner);
+        styleWinningLine(combo);
+        pointsHandler(winner);
+        gameReset(winner);
       }
-      // restrict check until 5 turns
-      if (numberOfTurns > 4) {
-        // check for winning lines
-        let { winnerFound, winner, combo } = checkIfWon();
-        if (winnerFound) {
-          gameOver = true;
-          messageWinnerHandler(winner);
-          styleWinningLine(combo);
-          pointsHandler(winner);
-          gameReset(winner);
-        }
+      // It's a draw
+      if (!winnerFound && numberOfTurns === 9) {
+        gameOver = true;
+        msg.innerText = 'Draw!';
+        gameReset();
       }
     }
   })
@@ -68,9 +69,9 @@ allSquares.forEach((square) =>
 function labelSquare(square) {
   // select square innerText = x or o
   let label;
-  xTurn ? (label = "X") : (label = "O");
+  xTurn ? (label = 'X') : (label = 'O');
   // if square empty & game hasn't already been won
-  if (square.innerText == "") {
+  if (square.innerText == '') {
     // add the label
     square.innerText = label;
     // add label to correct spot of currentBoard record
@@ -104,10 +105,10 @@ function checkIfWon() {
         case undefined:
           blank = true;
           break;
-        case "X":
+        case 'X':
           xCount++;
           break;
-        case "O":
+        case 'O':
           oCount++;
           break;
         default:
@@ -117,8 +118,8 @@ function checkIfWon() {
       if (xCount == 3 || oCount == 3) {
         winnerFound = true;
       }
-      if (xCount == 3) winner = "X";
-      if (oCount == 3) winner = "O";
+      if (xCount == 3) winner = 'X';
+      if (oCount == 3) winner = 'O';
       totalChecks++;
       comboElement++;
     } while (
@@ -132,7 +133,6 @@ function checkIfWon() {
     combo < WINNING_COMBOS.length &&
     !winnerFound
   );
-  console.log("Number of Checks: " + totalChecks);
   return { winnerFound: winnerFound, winner: winner, combo: combo - 1 };
 }
 
@@ -140,35 +140,34 @@ function styleWinningLine(combo) {
   // console.log(combo); e.g. returns 7 which is [2,4,6]
   WINNING_COMBOS[combo].forEach((index) => {
     // changes the squares background
-    allSquares[index].classList.add("winner");
+    allSquares[index].classList.add('winner');
   });
 }
 
 function messageWinnerHandler(winner) {
-  let newMessage = winner + " is the winner";
+  let newMessage = winner + ' is the winner';
   msg.innerText = newMessage;
 }
 
 function pointsHandler(winner) {
-  if (winner == "X") scoreX++;
-  if (winner == "O") scoreO++;
+  if (winner == 'X') scoreX++;
+  if (winner == 'O') scoreO++;
   scoreBoardX.innerText = scoreX;
   scoreBoardO.innerText = scoreO;
 }
 
 function gameReset(winner) {
   // Reset counters
-setTimeout(() => {
-  // loser starts
-  winner == "X" ? xTurn = false : xTurn = true;
-  numberOfTurns = 0;
-  gameOver = false;
-  currentBoard = new Array(9);
-  messageTurnHandler();
-  allSquares.forEach(square => {
-    square.classList.remove("winner");
-    square.innerText = "";
-  })
-
-}, 2500);
+  setTimeout(() => {
+    // loser starts
+    winner == 'X' ? (xTurn = false) : (xTurn = true);
+    numberOfTurns = 0;
+    gameOver = false;
+    currentBoard = new Array(9);
+    messageTurnHandler();
+    allSquares.forEach((square) => {
+      square.classList.remove('winner');
+      square.innerText = '';
+    });
+  }, 2500);
 }
